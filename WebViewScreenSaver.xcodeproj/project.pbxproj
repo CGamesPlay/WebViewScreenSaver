@@ -1,0 +1,322 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3BB24F441514BEE100C940AB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB24F431514BEE100C940AB /* Cocoa.framework */; };
+		3BB24F461514BEE100C940AB /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB24F451514BEE100C940AB /* ScreenSaver.framework */; };
+		3BB24F501514BEE100C940AB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BB24F4E1514BEE100C940AB /* InfoPlist.strings */; };
+		3BB24F5C1514BF0600C940AB /* WebViewScreenSaver.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BB24F5A1514BF0600C940AB /* WebViewScreenSaver.h */; };
+		3BB24F5D1514BF0600C940AB /* WebViewScreenSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB24F5B1514BF0600C940AB /* WebViewScreenSaver.m */; };
+		3BB24F5F1514BF1B00C940AB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB24F5E1514BF1B00C940AB /* WebKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3BB24F401514BEE100C940AB /* WebViewScreenSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebViewScreenSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BB24F431514BEE100C940AB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		3BB24F451514BEE100C940AB /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = System/Library/Frameworks/ScreenSaver.framework; sourceTree = SDKROOT; };
+		3BB24F481514BEE100C940AB /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		3BB24F491514BEE100C940AB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		3BB24F4A1514BEE100C940AB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3BB24F4D1514BEE100C940AB /* WebViewScreenSaver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WebViewScreenSaver-Info.plist"; sourceTree = "<group>"; };
+		3BB24F4F1514BEE100C940AB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3BB24F511514BEE100C940AB /* WebViewScreenSaver-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WebViewScreenSaver-Prefix.pch"; sourceTree = "<group>"; };
+		3BB24F5A1514BF0600C940AB /* WebViewScreenSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewScreenSaver.h; sourceTree = "<group>"; };
+		3BB24F5B1514BF0600C940AB /* WebViewScreenSaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewScreenSaver.m; sourceTree = "<group>"; };
+		3BB24F5E1514BF1B00C940AB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3BB24F3B1514BEE100C940AB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BB24F5F1514BF1B00C940AB /* WebKit.framework in Frameworks */,
+				3BB24F441514BEE100C940AB /* Cocoa.framework in Frameworks */,
+				3BB24F461514BEE100C940AB /* ScreenSaver.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3BB24F331514BEE100C940AB = {
+			isa = PBXGroup;
+			children = (
+				3BB24F5E1514BF1B00C940AB /* WebKit.framework */,
+				3BB24F4B1514BEE100C940AB /* WebViewScreenSaver */,
+				3BB24F421514BEE100C940AB /* Frameworks */,
+				3BB24F411514BEE100C940AB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3BB24F411514BEE100C940AB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3BB24F401514BEE100C940AB /* WebViewScreenSaver.saver */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3BB24F421514BEE100C940AB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3BB24F431514BEE100C940AB /* Cocoa.framework */,
+				3BB24F451514BEE100C940AB /* ScreenSaver.framework */,
+				3BB24F471514BEE100C940AB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3BB24F471514BEE100C940AB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3BB24F481514BEE100C940AB /* AppKit.framework */,
+				3BB24F491514BEE100C940AB /* CoreData.framework */,
+				3BB24F4A1514BEE100C940AB /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		3BB24F4B1514BEE100C940AB /* WebViewScreenSaver */ = {
+			isa = PBXGroup;
+			children = (
+				3BB24F5A1514BF0600C940AB /* WebViewScreenSaver.h */,
+				3BB24F5B1514BF0600C940AB /* WebViewScreenSaver.m */,
+				3BB24F4C1514BEE100C940AB /* Supporting Files */,
+			);
+			path = WebViewScreenSaver;
+			sourceTree = "<group>";
+		};
+		3BB24F4C1514BEE100C940AB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3BB24F4D1514BEE100C940AB /* WebViewScreenSaver-Info.plist */,
+				3BB24F4E1514BEE100C940AB /* InfoPlist.strings */,
+				3BB24F511514BEE100C940AB /* WebViewScreenSaver-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		3BB24F3C1514BEE100C940AB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BB24F5C1514BF0600C940AB /* WebViewScreenSaver.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		3BB24F3F1514BEE100C940AB /* WebViewScreenSaver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3BB24F571514BEE100C940AB /* Build configuration list for PBXNativeTarget "WebViewScreenSaver" */;
+			buildPhases = (
+				3BB24F3A1514BEE100C940AB /* Sources */,
+				3BB24F3B1514BEE100C940AB /* Frameworks */,
+				3BB24F3C1514BEE100C940AB /* Headers */,
+				3BB24F3D1514BEE100C940AB /* Resources */,
+				3BB24F3E1514BEE100C940AB /* Rez */,
+				3B004F541514FFCB00BC1483 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WebViewScreenSaver;
+			productName = WebViewScreenSaver;
+			productReference = 3BB24F401514BEE100C940AB /* WebViewScreenSaver.saver */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3BB24F351514BEE100C940AB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 3BB24F381514BEE100C940AB /* Build configuration list for PBXProject "WebViewScreenSaver" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3BB24F331514BEE100C940AB;
+			productRefGroup = 3BB24F411514BEE100C940AB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3BB24F3F1514BEE100C940AB /* WebViewScreenSaver */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3BB24F3D1514BEE100C940AB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BB24F501514BEE100C940AB /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		3BB24F3E1514BEE100C940AB /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3B004F541514FFCB00BC1483 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rsync -ad $SRCROOT/site $TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3BB24F3A1514BEE100C940AB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BB24F5D1514BF0600C940AB /* WebViewScreenSaver.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3BB24F4E1514BEE100C940AB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3BB24F4F1514BEE100C940AB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3BB24F551514BEE100C940AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		3BB24F561514BEE100C940AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		3BB24F581514BEE100C940AB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WebViewScreenSaver/WebViewScreenSaver-Prefix.pch";
+				INFOPLIST_FILE = "WebViewScreenSaver/WebViewScreenSaver-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = saver;
+			};
+			name = Debug;
+		};
+		3BB24F591514BEE100C940AB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WebViewScreenSaver/WebViewScreenSaver-Prefix.pch";
+				INFOPLIST_FILE = "WebViewScreenSaver/WebViewScreenSaver-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = saver;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3BB24F381514BEE100C940AB /* Build configuration list for PBXProject "WebViewScreenSaver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BB24F551514BEE100C940AB /* Debug */,
+				3BB24F561514BEE100C940AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3BB24F571514BEE100C940AB /* Build configuration list for PBXNativeTarget "WebViewScreenSaver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BB24F581514BEE100C940AB /* Debug */,
+				3BB24F591514BEE100C940AB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3BB24F351514BEE100C940AB /* Project object */;
+}
