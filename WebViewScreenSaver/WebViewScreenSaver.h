@@ -12,12 +12,13 @@
 @interface WebViewScreenSaver : ScreenSaverView
 {
   @private
-    WebView* webView_;
-    WebView* configureWebView_;
+    WebView *webView_;
+    WebView *configureWebView_;
 
     NSWindow *sheet_;
 }
 
 - (id)objectForInfoDictionaryKey:(NSString *)key;
+- (void)setupPreferencesFor:(WebView *)webview;
 
 @end

@@ -7,11 +7,15 @@
 //
 
 #import "WebViewScreenSaver.h"
+#include <objc/message.h>
 
 static NSString * const kBundleIdentifier = @"com.github.cgamesplay.WebViewScreenSaver";
 static NSString * const kPrimaryURL = @"PrimaryURL";
 static NSString * const kConfigureURL = @"ConfigureURL";
 static NSString * const kConfigureFrame = @"ConfigureFrame";
+// WebView does not allow configuring Web SQL Database path, so we'll lock this
+// just for consistency.
+static NSString * const kLocalStorageDatabasePath = @"~/Library/WebKit/LocalStorage";
 
 @implementation WebViewScreenSaver
 
@@ -19,12 +23,8 @@ static NSString * const kConfigureFrame = @"ConfigureFrame";
 {
   self = [super initWithFrame:frame isPreview:isPreview];
   if (self) {
-    [[NSUserDefaults standardUserDefaults] setBool:TRUE
-                                            forKey:@"WebKitDeveloperExtras"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-
     webView_ = [[WebView alloc] initWithFrame:[self bounds]];
-    [webView_ setUIDelegate:self];
+    [self setupPreferencesFor:webView_];
     [self addSubview:webView_];
 
     NSURL* baseURL =
@@ -59,15 +59,16 @@ static NSString * const kConfigureFrame = @"ConfigureFrame";
   sheet_ = [[NSPanel alloc] init];
   [sheet_ setFrame:frameRect display:YES];
 
-  WebView* webview = [[WebView alloc] init];
-  [sheet_ setContentView:webview];
-  [webview setUIDelegate:self];
+  configureWebView_ = [[WebView alloc] init];
+  [self setupPreferencesFor:configureWebView_];
+  [sheet_ setContentView:configureWebView_];
+  [configureWebView_ setUIDelegate:self];
 
   NSURL* baseURL =
     [[NSBundle bundleWithIdentifier:kBundleIdentifier] resourceURL];
   NSString* primaryURL = [self objectForInfoDictionaryKey:kConfigureURL];
   NSURL* url = [NSURL URLWithString:primaryURL relativeToURL:baseURL];
-  [webview setMainFrameURL:[url absoluteString]];
+  [configureWebView_ setMainFrameURL:[url absoluteString]];
 
   return sheet_;
 }
@@ -77,6 +78,15 @@ static NSString * const kConfigureFrame = @"ConfigureFrame";
   NSDictionary *infoDictionary =
     [[NSBundle bundleWithIdentifier:kBundleIdentifier] infoDictionary];
   return [infoDictionary objectForKey:key];
+}
+
+- (void)setupPreferencesFor:(WebView *)webview
+{
+  WebPreferences *preferences = webview.preferences;
+  objc_msgSend(preferences, @selector(setDeveloperExtrasEnabled:), YES);
+  objc_msgSend(preferences, @selector(setLocalStorageEnabled:), YES);
+  objc_msgSend(preferences, @selector(_setLocalStorageDatabasePath:),
+    kLocalStorageDatabasePath);
 }
 
 - (void)webViewClose:(WebView*)sender

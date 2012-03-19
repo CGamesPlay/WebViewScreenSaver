@@ -28,9 +28,12 @@ plist accordingly.
 
 # What needs to be done
 
-* The embedded WebView doesn't seem to be able to keep any state around:
-  neither cookies nor localStorage are working.
 * Default.png, or at least a matte color for before the view is loaded.
+* It needs to prevent input (for preview window).
+* LocalStorage storage works, however it stores data in `~/Library/WebKit`,
+  shared with other WebViews.
+* Web SQL Databases don't work.
+* Cookies are shared with Safari.
 
 # Thanks
 
