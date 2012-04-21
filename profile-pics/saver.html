@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
+<div id="login-button" class="fb-login-button" data-show-faces="true" data-width="800" data-max-rows="1" data-scope="user_photos"></div>
 <div id="fb-root"></div>
 <div id="content"></div>
 <script>
@@ -18,21 +19,17 @@ var CELLS = [];
 var CELL_ROTATION_ORDER = [];
 
 FB.init({
-  appId: '274296999328339'
+  appId: '274296999328339',
+  status: true,
+  xfbml: true
 });
 
-FB.getLoginStatus(function(response) {
+FB.Event.subscribe('auth.statusChange', function(response) {
   if (response.status == 'connected') {
+    document.getElementById('login-button').style.display = 'none';
     startAnimation();
     return;
   }
-
-  FB.login(function(response) {
-    if (!response.authResponse) {
-      return;
-    }
-    startAnimation();
-  });
 });
 
 buildGrid();
