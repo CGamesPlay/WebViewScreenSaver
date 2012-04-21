@@ -46,9 +46,22 @@ function prefill() {
     }
   }
 }
+function getQueryString() {
+  var result = {}, queryString = location.search.substring(1),
+      re = /([^&=]+)=([^&]*)/g, m;
+  while (m = re.exec(queryString)) {
+    result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+  }
+  return result;
+}
 
 function startAnimation() {
-  FB.api('/me/friends', function(data) {
+  var qs = getQueryString();
+  var query = '/me/friends';
+  if (qs['album']) {
+    query = '/'+qs['album']+'/photos';
+  }
+  FB.api(query, function(data) {
     ALL_FRIENDS = data.data;
     shuffle(ALL_FRIENDS);
 
@@ -83,8 +96,12 @@ function rotate(array) {
 
 function switchCell(i, friend) {
   var cell = CELLS[i];
-  var pic_url =
+  var pic_url = 
     'http://graph.facebook.com/' + friend.id + '/picture?type=large';
+  if (friend.picture) {
+    pic_url = friend.picture;
+  }
+
   if (cell.childNodes.length > 0) {
     animateOut(cell.childNodes[0]);
   }
