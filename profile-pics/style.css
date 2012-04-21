@@ -59,3 +59,7 @@ html, body {
     -webkit-transform: perspective(500px) rotateY(90deg);
   }
 }
+
+#login-button {
+  margin-left: 50%;
+}
