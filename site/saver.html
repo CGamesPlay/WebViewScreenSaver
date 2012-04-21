@@ -24,21 +24,20 @@ FB.init({
 FB.getLoginStatus(function(response) {
   if (response.status == 'connected') {
     startAnimation();
-    return;
+  } else {
+    doLogin(startAnimation);
   }
-
-  FB.login(function(response) {
-    if (!response.authResponse) {
-      return;
-    }
-    startAnimation();
-  });
 });
 
-buildGrid();
-window.onresize = function() {
-  buildGrid();
-  prefill();
+function doLogin(then) {
+  var content = document.getElementById('content');
+  content.innerHTML =
+    '<div id="login-button">To use this screen saver, you must log in with Facebook.' +
+    '<div class="fb-login-button" data-show-faces="false" data-width="200" data-max-rows="1"></div></div>';
+  FB.XFBML.parse(content);
+  FB.Event.subscribe('auth.login', function() {
+    then();
+  });
 }
 
 function prefill() {
@@ -51,6 +50,12 @@ function prefill() {
 }
 
 function startAnimation() {
+  buildGrid();
+  window.onresize = function() {
+    buildGrid();
+    prefill();
+  }
+
   FB.api('/me/friends', function(data) {
     ALL_FRIENDS = data.data;
     shuffle(ALL_FRIENDS);
@@ -116,6 +121,7 @@ function buildGrid() {
   content.innerHTML = '';
   for (var y = 0; y < rows; y++) {
     var row = document.createElement('div');
+    row.setAttribute('class', 'row');
     content.appendChild(row);
     for (var x = 0; x < cols; x++) {
       var cell = document.createElement('div');
