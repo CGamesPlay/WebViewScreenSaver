@@ -30,6 +30,7 @@ plist accordingly.
 
 * Default.png, or at least a matte color for before the view is loaded.
 * It needs to prevent input (for preview window).
+* Probably related: pressing keys doesn't dismiss the screensaver.
 * LocalStorage storage works, however it stores data in `~/Library/WebKit`,
   shared with other WebViews.
 * Web SQL Databases don't work.
