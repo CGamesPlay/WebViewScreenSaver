@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Screen Saver</title>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<div id="fb-root"></div>
+<div id="content"></div>
+<script>
+
+const PIC_SIZE = 180;
+const INITIAL_DISTRIBUTION = 1;
+
+var ALL_FRIENDS = [];
+var CELLS = [];
+var CELL_ROTATION_ORDER = [];
+
+FB.init({
+  appId: '274296999328339'
+});
+
+FB.getLoginStatus(function(response) {
+  if (response.status == 'connected') {
+    startAnimation();
+    return;
+  }
+
+  FB.login(function(response) {
+    if (!response.authResponse) {
+      return;
+    }
+    startAnimation();
+  });
+});
+
+buildGrid();
+window.onresize = function() {
+  buildGrid();
+  prefill();
+}
+
+function prefill() {
+  for (var i = 0; i < CELLS.length; i++) {
+    if (Math.random() < INITIAL_DISTRIBUTION) {
+      var friend = rotate(ALL_FRIENDS);
+      switchCell(i, friend);
+    }
+  }
+}
+
+function startAnimation() {
+  FB.api('/me/friends', function(data) {
+    ALL_FRIENDS = data.data;
+    shuffle(ALL_FRIENDS);
+
+    prefill();
+    setTimeout(switchOne, 1500);
+  });
+}
+
+function switchOne() {
+  var cell = rotate(CELL_ROTATION_ORDER);
+  var friend = rotate(ALL_FRIENDS);
+  switchCell(cell, friend);
+
+  var delay = Math.random() * 500 + 2000;
+  setTimeout(switchOne, delay);
+}
+
+function shuffle(array) {
+  for (var i = 0; i < array.length; i++) {
+    var j = Math.floor(Math.random() * array.length);
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
+
+function rotate(array) {
+  var val = array.shift();
+  array.push(val);
+  return val;
+}
+
+function switchCell(i, friend) {
+  var cell = CELLS[i];
+  var pic_url =
+    'http://graph.facebook.com/' + friend.id + '/picture?type=large';
+  if (cell.childNodes.length > 0) {
+    animateOut(cell.childNodes[0]);
+  }
+  var div = document.createElement('div');
+  cell.appendChild(div);
+  div.setAttribute('class', 'picture');
+  div.style.backgroundImage = 'url(' + pic_url + ')';
+  animateIn(div);
+}
+
+function animateOut(div) {
+  console.log("remove", div);
+  div.setAttribute('class', 'picture leaving');
+  div.addEventListener('webkitAnimationEnd', function() {
+    div.parentElement.removeChild(div);
+  });
+}
+
+function animateIn(div) {
+}
+
+function buildGrid() {
+  var cols = window.innerWidth / PIC_SIZE;
+  var rows = window.innerHeight / PIC_SIZE;
+  var content = document.getElementById('content');
+  content.innerHTML = '';
+  for (var y = 0; y < rows; y++) {
+    var row = document.createElement('div');
+    content.appendChild(row);
+    for (var x = 0; x < cols; x++) {
+      var cell = document.createElement('div');
+      row.appendChild(cell);
+      CELLS.push(cell);
+    }
+  }
+
+  CELL_ROTATION_ORDER = [];
+  for (var i = 0; i < CELLS.length; i++) {
+    CELL_ROTATION_ORDER.push(i);
+  }
+  shuffle(CELL_ROTATION_ORDER);
+}
+</script>
+</body>
+</html>
