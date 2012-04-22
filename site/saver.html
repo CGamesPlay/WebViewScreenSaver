@@ -17,8 +17,13 @@ var ALL_FRIENDS = [];
 var CELLS = [];
 var CELL_ROTATION_ORDER = [];
 
+var app_id = '274296999328339';
+if (localStorage.getItem('app_id')) {
+  app_id = localStorage.getItem('app_id');
+}
+
 FB.init({
-  appId: '274296999328339'
+  appId: app_id
 });
 
 FB.getLoginStatus(function(response) {
