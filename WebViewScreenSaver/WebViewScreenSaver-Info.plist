@@ -35,5 +35,7 @@
 		<string>640</string>
 		<string>480</string>
 	</array>
+	<key>DebugMode</key>
+	<true/>
 </dict>
 </plist>

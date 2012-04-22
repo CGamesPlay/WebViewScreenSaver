@@ -13,6 +13,7 @@ static NSString * const kBundleIdentifier = @"com.github.cgamesplay.WebViewScree
 static NSString * const kPrimaryURL = @"PrimaryURL";
 static NSString * const kConfigureURL = @"ConfigureURL";
 static NSString * const kConfigureFrame = @"ConfigureFrame";
+static NSString * const kDebugMode = @"DebugMode";
 // WebView does not allow configuring Web SQL Database path, so we'll lock this
 // just for consistency.
 static NSString * const kLocalStorageDatabasePath = @"~/Library/WebKit/LocalStorage";
@@ -42,6 +43,30 @@ static NSString * const kLocalStorageDatabasePath = @"~/Library/WebKit/LocalStor
   [configureWebView_ release];
   [sheet_ release];
   [super dealloc];
+}
+
+- (BOOL)isDebugMode
+{
+  NSNumber* debugMode = [self objectForInfoDictionaryKey:kDebugMode];
+  return [debugMode boolValue];
+}
+
+- (NSView *)hitTest:(NSPoint)aPoint
+{
+  if (![self isDebugMode]) {
+    return nil;
+  }
+
+  return [super hitTest:aPoint];
+}
+
+- (NSView *)nextKeyView
+{
+  if (![self isDebugMode]) {
+    return nil;
+  }
+
+  return [super nextKeyView];
 }
 
 - (BOOL)hasConfigureSheet
@@ -83,10 +108,12 @@ static NSString * const kLocalStorageDatabasePath = @"~/Library/WebKit/LocalStor
 - (void)setupPreferencesFor:(WebView *)webview
 {
   WebPreferences *preferences = webview.preferences;
-  objc_msgSend(preferences, @selector(setDeveloperExtrasEnabled:), YES);
   objc_msgSend(preferences, @selector(setLocalStorageEnabled:), YES);
   objc_msgSend(preferences, @selector(_setLocalStorageDatabasePath:),
     kLocalStorageDatabasePath);
+
+  objc_msgSend(preferences, @selector(setDeveloperExtrasEnabled:),
+    [self isDebugMode]);
 }
 
 - (void)webViewClose:(WebView*)sender
