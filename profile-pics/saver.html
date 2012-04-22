@@ -13,47 +13,61 @@
 const PIC_SIZE = 180;
 const INITIAL_DISTRIBUTION = 1;
 
-var ALL_FRIENDS = [];
+var ALL_PHOTOS = [];
 var CELLS = [];
 var CELL_ROTATION_ORDER = [];
 
+var app_id = '274296999328339';
+if (localStorage.getItem('app_id')) {
+  app_id = localStorage.getItem('app_id');
+}
+
 FB.init({
-  appId: '274296999328339'
+  appId: app_id
 });
 
 FB.getLoginStatus(function(response) {
   if (response.status == 'connected') {
     startAnimation();
-    return;
+  } else {
+    doLogin(startAnimation);
   }
-
-  FB.login(function(response) {
-    if (!response.authResponse) {
-      return;
-    }
-    startAnimation();
-  });
 });
 
-buildGrid();
-window.onresize = function() {
-  buildGrid();
-  prefill();
+function doLogin(then) {
+  var content = document.getElementById('content');
+  content.innerHTML =
+    '<div id="login-button">To use this screen saver, you must log in with Facebook.' +
+    '<div class="fb-login-button" data-show-faces="false" data-width="200" data-max-rows="1"></div></div>';
+  FB.XFBML.parse(content);
+  FB.Event.subscribe('auth.login', function() {
+    then();
+  });
 }
 
 function prefill() {
   for (var i = 0; i < CELLS.length; i++) {
     if (Math.random() < INITIAL_DISTRIBUTION) {
-      var friend = rotate(ALL_FRIENDS);
-      switchCell(i, friend);
+      var photo = rotate(ALL_PHOTOS);
+      switchCell(i, photo);
     }
   }
 }
 
 function startAnimation() {
+  buildGrid();
+  window.onresize = function() {
+    buildGrid();
+    prefill();
+  }
+
   FB.api('/me/friends', function(data) {
-    ALL_FRIENDS = data.data;
-    shuffle(ALL_FRIENDS);
+    ALL_PHOTOS = [];
+    for (var i = 0; i < data.data.length; i++) {
+      ALL_PHOTOS.push(
+        'http://graph.facebook.com/' + data.data[i].id + '/picture?type=large');
+    }
+    shuffle(ALL_PHOTOS);
 
     prefill();
     setTimeout(switchOne, 1500);
@@ -62,8 +76,8 @@ function startAnimation() {
 
 function switchOne() {
   var cell = rotate(CELL_ROTATION_ORDER);
-  var friend = rotate(ALL_FRIENDS);
-  switchCell(cell, friend);
+  var photo = rotate(ALL_PHOTOS);
+  switchCell(cell, photo);
 
   var delay = Math.random() * 500 + 2000;
   setTimeout(switchOne, delay);
@@ -84,17 +98,15 @@ function rotate(array) {
   return val;
 }
 
-function switchCell(i, friend) {
+function switchCell(i, url) {
   var cell = CELLS[i];
-  var pic_url =
-    'http://graph.facebook.com/' + friend.id + '/picture?type=large';
   if (cell.childNodes.length > 0) {
     animateOut(cell.childNodes[0]);
   }
   var div = document.createElement('div');
   cell.appendChild(div);
   div.setAttribute('class', 'picture');
-  div.style.backgroundImage = 'url(' + pic_url + ')';
+  div.style.backgroundImage = 'url(' + url + ')';
   animateIn(div);
 }
 
@@ -116,6 +128,7 @@ function buildGrid() {
   content.innerHTML = '';
   for (var y = 0; y < rows; y++) {
     var row = document.createElement('div');
+    row.setAttribute('class', 'row');
     content.appendChild(row);
     for (var x = 0; x < cols; x++) {
       var cell = document.createElement('div');

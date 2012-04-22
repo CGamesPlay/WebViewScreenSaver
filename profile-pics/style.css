@@ -1,9 +1,9 @@
 html, body {
+  color: #fff;
   background: #000;
   height: 100%;
   padding: 0;
   margin: 0;
-  -webkit-transform: translate3d(0, 0, 0);
 }
 
 #content {
@@ -13,12 +13,12 @@ html, body {
   -webkit-box-orient: vertical;
 }
 
-#content > div {
+#content > .row {
   -webkit-box-flex: 1;
   display: -webkit-box;
 }
 
-#content > div > div {
+#content > .row > div {
   -webkit-box-flex: 1;
   position: relative;
 }
@@ -58,4 +58,9 @@ html, body {
   50%, 100% {
     -webkit-transform: perspective(500px) rotateY(90deg);
   }
+}
+
+#login-button {
+  padding: 100px;
+  text-align: center;
 }
