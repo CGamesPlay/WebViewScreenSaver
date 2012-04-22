@@ -10,8 +10,8 @@
 		3BB24F441514BEE100C940AB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB24F431514BEE100C940AB /* Cocoa.framework */; };
 		3BB24F461514BEE100C940AB /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB24F451514BEE100C940AB /* ScreenSaver.framework */; };
 		3BB24F501514BEE100C940AB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3BB24F4E1514BEE100C940AB /* InfoPlist.strings */; };
-		3BB24F5C1514BF0600C940AB /* WebViewScreenSaver.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BB24F5A1514BF0600C940AB /* WebViewScreenSaver.h */; };
-		3BB24F5D1514BF0600C940AB /* WebViewScreenSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB24F5B1514BF0600C940AB /* WebViewScreenSaver.m */; };
+		3BB24F5C1514BF0600C940AB /* FacebookFriendsScreenSaver.h in Headers */ = {isa = PBXBuildFile; fileRef = 3BB24F5A1514BF0600C940AB /* FacebookFriendsScreenSaver.h */; };
+		3BB24F5D1514BF0600C940AB /* FacebookFriendsScreenSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BB24F5B1514BF0600C940AB /* FacebookFriendsScreenSaver.m */; };
 		3BB24F5F1514BF1B00C940AB /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BB24F5E1514BF1B00C940AB /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,8 +25,8 @@
 		3BB24F4D1514BEE100C940AB /* WebViewScreenSaver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WebViewScreenSaver-Info.plist"; sourceTree = "<group>"; };
 		3BB24F4F1514BEE100C940AB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3BB24F511514BEE100C940AB /* WebViewScreenSaver-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WebViewScreenSaver-Prefix.pch"; sourceTree = "<group>"; };
-		3BB24F5A1514BF0600C940AB /* WebViewScreenSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewScreenSaver.h; sourceTree = "<group>"; };
-		3BB24F5B1514BF0600C940AB /* WebViewScreenSaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewScreenSaver.m; sourceTree = "<group>"; };
+		3BB24F5A1514BF0600C940AB /* FacebookFriendsScreenSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookFriendsScreenSaver.h; sourceTree = "<group>"; };
+		3BB24F5B1514BF0600C940AB /* FacebookFriendsScreenSaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookFriendsScreenSaver.m; sourceTree = "<group>"; };
 		3BB24F5E1514BF1B00C940AB /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -85,8 +85,8 @@
 		3BB24F4B1514BEE100C940AB /* WebViewScreenSaver */ = {
 			isa = PBXGroup;
 			children = (
-				3BB24F5A1514BF0600C940AB /* WebViewScreenSaver.h */,
-				3BB24F5B1514BF0600C940AB /* WebViewScreenSaver.m */,
+				3BB24F5A1514BF0600C940AB /* FacebookFriendsScreenSaver.h */,
+				3BB24F5B1514BF0600C940AB /* FacebookFriendsScreenSaver.m */,
 				3BB24F4C1514BEE100C940AB /* Supporting Files */,
 			);
 			path = WebViewScreenSaver;
@@ -109,7 +109,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BB24F5C1514BF0600C940AB /* WebViewScreenSaver.h in Headers */,
+				3BB24F5C1514BF0600C940AB /* FacebookFriendsScreenSaver.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,7 +204,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BB24F5D1514BF0600C940AB /* WebViewScreenSaver.m in Sources */,
+				3BB24F5D1514BF0600C940AB /* FacebookFriendsScreenSaver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

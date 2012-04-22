@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Ryan Patterson. All rights reserved.
 //
 
-#import "WebViewScreenSaver.h"
+#import "FacebookFriendsScreenSaver.h"
 #include <objc/message.h>
 
-static NSString * const kBundleIdentifier = @"com.github.cgamesplay.WebViewScreenSaver";
+static NSString * const kBundleIdentifier = @"com.github.cgamesplay.FacebookFriendsScreenSaver";
 static NSString * const kPrimaryURL = @"PrimaryURL";
 static NSString * const kConfigureURL = @"ConfigureURL";
 static NSString * const kConfigureFrame = @"ConfigureFrame";
@@ -18,7 +18,7 @@ static NSString * const kDebugMode = @"DebugMode";
 // just for consistency.
 static NSString * const kLocalStorageDatabasePath = @"~/Library/WebKit/LocalStorage";
 
-@implementation WebViewScreenSaver
+@implementation FacebookFriendsScreenSaver
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {

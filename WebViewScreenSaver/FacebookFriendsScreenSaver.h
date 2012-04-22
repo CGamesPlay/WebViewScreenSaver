@@ -9,7 +9,7 @@
 #import <ScreenSaver/ScreenSaver.h>
 #import <WebKit/WebKit.h>
 
-@interface WebViewScreenSaver : ScreenSaverView
+@interface FacebookFriendsScreenSaver : ScreenSaverView
 {
   @private
     WebView *webView_;

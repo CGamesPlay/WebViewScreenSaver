@@ -9,11 +9,11 @@
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
-	<string>com.github.cgamesplay.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.github.cgamesplay.FacebookFriendsScreenSaver</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>Facebook Friends</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
@@ -27,15 +27,15 @@
 	<key>NSPrincipalClass</key>
 	<string>WebViewScreenSaverView</string>
 	<key>PrimaryURL</key>
-	<string>site/saver.html</string>
+	<string>http://cgamesplay.github.com/WebViewScreenSaver/profile-pics/saver.html?saver=true</string>
 	<key>ConfigureURL</key>
-	<string>site/configure.html</string>
+	<string>http://cgamesplay.github.com/WebViewScreenSaver/profile-pics/configure.html</string>
 	<key>ConfigureFrame</key>
 	<array>
 		<string>640</string>
 		<string>480</string>
 	</array>
 	<key>DebugMode</key>
-	<true/>
+	<false/>
 </dict>
 </plist>
