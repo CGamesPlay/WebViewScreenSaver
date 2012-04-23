@@ -16,6 +16,7 @@ const INITIAL_DISTRIBUTION = 1;
 var ALL_PHOTOS = [];
 var CELLS = [];
 var CELL_ROTATION_ORDER = [];
+var ROWS = 0, COLS = 0;
 
 var app_id = '274296999328339';
 if (localStorage.getItem('app_id')) {
@@ -70,16 +71,26 @@ function startAnimation() {
     prefill();
   }
 
-  FB.api('/me/friends', function(data) {
-    ALL_PHOTOS = [];
-    for (var i = 0; i < data.data.length; i++) {
-      ALL_PHOTOS.push(
-        'http://graph.facebook.com/' + data.data[i].id + '/picture?type=large');
-    }
+
+  getProfilePics(function(photos) {
+    ALL_PHOTOS = photos;
     shuffle(ALL_PHOTOS);
 
     prefill();
-    setTimeout(switchOne, 1500);
+    setTimeout(switchOne, 3000);
+  });
+}
+
+function getProfilePics(then) {
+  FB.api({
+    method: 'fql.query',
+    query: 'SELECT pic_big FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())'
+  }, function(data) {
+    var result = [];
+    for (var i = 0; i < data.length; i++) {
+      result.push(data[i].pic_big);
+    }
+    then(result);
   });
 }
 
@@ -120,7 +131,6 @@ function switchCell(i, url) {
 }
 
 function animateOut(div) {
-  console.log("remove", div);
   div.setAttribute('class', 'picture leaving');
   div.addEventListener('webkitAnimationEnd', function() {
     div.parentElement.removeChild(div);
@@ -131,15 +141,15 @@ function animateIn(div) {
 }
 
 function buildGrid() {
-  var cols = Math.max(Math.ceil(window.innerWidth / PIC_SIZE), 4);
-  var rows = Math.max(Math.ceil(window.innerHeight / PIC_SIZE), 3);
+  COLS = Math.max(Math.ceil(window.innerWidth / PIC_SIZE), 4);
+  ROWS = Math.max(Math.ceil(window.innerHeight / PIC_SIZE), 3);
   var content = document.getElementById('content');
   content.innerHTML = '';
-  for (var y = 0; y < rows; y++) {
+  for (var y = 0; y < ROWS; y++) {
     var row = document.createElement('div');
     row.setAttribute('class', 'row');
     content.appendChild(row);
-    for (var x = 0; x < cols; x++) {
+    for (var x = 0; x < COLS; x++) {
       var cell = document.createElement('div');
       row.appendChild(cell);
       CELLS.push(cell);
