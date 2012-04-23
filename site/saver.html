@@ -17,6 +17,7 @@ var ALL_PHOTOS = [];
 var CELLS = [];
 var CELL_ROTATION_ORDER = [];
 var ROWS = 0, COLS = 0;
+var IS_SAVER_MODE = window.location.search.indexOf('saver') != -1;
 
 var app_id = '274296999328339';
 if (localStorage.getItem('app_id')) {
@@ -37,7 +38,7 @@ FB.getLoginStatus(function(response) {
 
 function doLogin(then) {
   var content = document.getElementById('content');
-  if (window.location.search.indexOf('saver') != -1) {
+  if (IS_SAVER_MODE) {
     // In screen saver mode
     content.innerHTML =
       '<div id="login-button">Open the options pane for instructions on setting up this screen saver.<br /><br /></div>';
@@ -84,11 +85,14 @@ function startAnimation() {
 function getProfilePics(then) {
   FB.api({
     method: 'fql.query',
-    query: 'SELECT pic_big FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())'
+    query: 'SELECT name, pic_big FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())'
   }, function(data) {
     var result = [];
     for (var i = 0; i < data.length; i++) {
-      result.push(data[i].pic_big);
+      result.push({
+        url: data[i].pic_big,
+        name: data[i].name
+      });
     }
     then(result);
   });
@@ -118,7 +122,7 @@ function rotate(array) {
   return val;
 }
 
-function switchCell(i, url) {
+function switchCell(i, photo) {
   var cell = CELLS[i];
   if (cell.childNodes.length > 0) {
     animateOut(cell.childNodes[0]);
@@ -126,8 +130,16 @@ function switchCell(i, url) {
   var div = document.createElement('div');
   cell.appendChild(div);
   div.setAttribute('class', 'picture');
-  div.style.backgroundImage = 'url(' + url + ')';
+  div.style.backgroundImage = 'url(' + photo.url + ')';
   animateIn(div);
+  if (!IS_SAVER_MODE && photo.name) {
+    // Adding this as an easter egg for the website only.
+    var subtitle = document.createElement('div');
+    subtitle.className = 'subtitle';
+    subtitle.innerHTML = photo.name;
+    div.appendChild(subtitle);
+    subtitle.style.bottom = '-' + subtitle.clientHeight + 'px';
+  }
 }
 
 function animateOut(div) {
