@@ -40,6 +40,7 @@ html, body {
 
 #content .picture.leaving {
   -webkit-animation-name: leaving;
+  z-index: 1;
 }
 
 @-webkit-keyframes appearing {
@@ -48,6 +49,7 @@ html, body {
   }
 
   100% {
+    z-index: 1;
     -webkit-transform: perspective(500px) rotateY(0deg);
   }
 }
