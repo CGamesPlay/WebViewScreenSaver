@@ -194,7 +194,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rsync -ad $SRCROOT/site $TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/";
+			shellScript = "rsync -ad \"$SRCROOT/site\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/\"";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

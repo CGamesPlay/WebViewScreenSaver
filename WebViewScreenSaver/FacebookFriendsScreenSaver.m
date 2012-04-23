@@ -26,7 +26,7 @@ static NSString * const kLocalStorageDatabasePath = @"~/Library/WebKit/LocalStor
   if (self) {
     webView_ = [[WebView alloc] initWithFrame:[self bounds]];
     [self setupPreferencesFor:webView_];
-    [self addSubview:webView_];
+    [webView_ setFrameLoadDelegate:self];
 
     NSURL* baseURL =
       [[NSBundle bundleWithIdentifier:kBundleIdentifier] resourceURL];
@@ -114,6 +114,13 @@ static NSString * const kLocalStorageDatabasePath = @"~/Library/WebKit/LocalStor
 
   objc_msgSend(preferences, @selector(setDeveloperExtrasEnabled:),
     [self isDebugMode]);
+}
+
+- (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
+{
+  if (sender == webView_) {
+    [self addSubview:webView_];
+  }
 }
 
 - (void)webViewClose:(WebView*)sender
