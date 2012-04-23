@@ -123,6 +123,7 @@ static NSString * const kLocalStorageDatabasePath = @"~/Library/WebKit/LocalStor
   sheet_ = nil;
   [configureWebView_ release];
   configureWebView_ = nil;
+  [webView_ reload:self];
 }
 
 @end
