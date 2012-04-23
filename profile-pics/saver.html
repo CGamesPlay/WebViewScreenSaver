@@ -36,10 +36,19 @@ FB.getLoginStatus(function(response) {
 
 function doLogin(then) {
   var content = document.getElementById('content');
-  content.innerHTML =
-    '<div id="login-button">To use this screen saver, you must log in with Facebook.' +
-    '<div class="fb-login-button" data-show-faces="false" data-width="200" data-max-rows="1"></div></div>';
-  FB.XFBML.parse(content);
+  if (window.location.search.indexOf('saver') != -1) {
+    // In screen saver mode
+    content.innerHTML =
+      '<div id="login-button">Open the options pane for instructions on setting up this screen saver.<br /><br /></div>';
+    // Bug in webkit
+    content.style.display = 'block';
+  } else {
+    // Access from browser
+    content.innerHTML =
+      '<div id="login-button">To use this screen saver, you must log in with Facebook.<br /><br />' +
+      '<div class="fb-login-button" data-show-faces="false" data-width="200" data-max-rows="1"></div></div>';
+    FB.XFBML.parse(content);
+  }
   FB.Event.subscribe('auth.login', function() {
     then();
   });
@@ -122,8 +131,8 @@ function animateIn(div) {
 }
 
 function buildGrid() {
-  var cols = window.innerWidth / PIC_SIZE;
-  var rows = window.innerHeight / PIC_SIZE;
+  var cols = Math.max(Math.ceil(window.innerWidth / PIC_SIZE), 4);
+  var rows = Math.max(Math.ceil(window.innerHeight / PIC_SIZE), 3);
   var content = document.getElementById('content');
   content.innerHTML = '';
   for (var y = 0; y < rows; y++) {
