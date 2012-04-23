@@ -59,8 +59,14 @@ function doLogin(then) {
 function prefill() {
   for (var i = 0; i < CELLS.length; i++) {
     if (Math.random() < INITIAL_DISTRIBUTION) {
-      var photo = rotate(ALL_PHOTOS);
-      switchCell(i, photo);
+      (function (i) {
+        var row = Math.floor(i / COLS);
+        var col = i % COLS;
+        setTimeout(function() {
+          var photo = rotate(ALL_PHOTOS);
+          switchCell(i, photo);
+        }, 100 * (row + col));
+      })(i);
     }
   }
 }
@@ -127,19 +133,26 @@ function switchCell(i, photo) {
   if (cell.childNodes.length > 0) {
     animateOut(cell.childNodes[0]);
   }
-  var div = document.createElement('div');
-  cell.appendChild(div);
-  div.setAttribute('class', 'picture');
-  div.style.backgroundImage = 'url(' + photo.url + ')';
-  animateIn(div);
-  if (!IS_SAVER_MODE && photo.name) {
-    // Adding this as an easter egg for the website only.
-    var subtitle = document.createElement('div');
-    subtitle.className = 'subtitle';
-    subtitle.innerHTML = photo.name;
-    div.appendChild(subtitle);
-    subtitle.style.bottom = '-' + subtitle.clientHeight + 'px';
-  }
+  var image = new Image();
+  image.src = photo.url;
+  image.addEventListener('load', function() {
+    // This is a little clowny, but I need this here so that image gets closed
+    // over this function.
+    delete image;
+    var div = document.createElement('div');
+    cell.appendChild(div);
+    div.setAttribute('class', 'picture');
+    div.style.backgroundImage = 'url(' + photo.url + ')';
+    animateIn(div);
+    if (!IS_SAVER_MODE && photo.name) {
+      // Adding this as an easter egg for the website only.
+      var subtitle = document.createElement('div');
+      subtitle.className = 'subtitle';
+      subtitle.innerHTML = photo.name;
+      div.appendChild(subtitle);
+      subtitle.style.bottom = '-' + subtitle.clientHeight + 'px';
+    }
+  });
 }
 
 function animateOut(div) {
