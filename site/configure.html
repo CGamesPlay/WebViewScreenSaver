@@ -2,13 +2,84 @@
 <html>
 <head>
 <title>Configuration</title>
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<style type="text/css">
+
+body {
+  padding: 0 20px 20px;
+  margin: 0 auto;
+  font-family: Lucida Grande;
+  font-size: 11px;
+}
+
+</style>
 </head>
 <body>
-<h1>Configuration Panel</h1>
-<p>This form will be displayed as the configuration panel in the system
-  preferences.</p>
-<p>You can adjust the size of the configuration window by editing the Info.plist
-  file, for the <tt>ConfigureFrame</tt> key.</p>
+<div id="fb-root"></div>
+
+<h1>Facebook Friends Screen Saver</h1>
+
+<div id="login" style="display: none">
+<p>In order to use this screen saver, you need to log in with Facebook. To do
+that, please open the following URL in Safari (you must manually copy and paste
+the link). Right click, and select "Copy Link".</p>
+<p><a href="http://cgamesplay.github.com/WebViewScreenSaver/profile-pics/saver.html" onclick="return false;">http://cgamesplay.github.com/WebViewScreenSaver/profile-pics/saver.html</a></p>
+</div>
+
+<div id="controls" style="display: none">
+<p>You are now logged in and can use this screen saver!</p>
+</div>
+
+<button onclick="location.reload(); return false;">Refresh</button>
 <button onclick="window.close(); return false;">Close</button>
+
+<div style="display: none">
+  <label for="custom-app-id">Custom App ID:</label>
+  <input id="custom-app-id" />
+  <button onclick="updateAppId();">Apply</button>
+</div>
+
+<script type="text/javascript">
+var custom_app_id = document.getElementById('custom-app-id');
+custom_app_id.value = localStorage.getItem('app_id');
+
+var app_id = '274296999328339';
+if (localStorage.getItem('app_id')) {
+  app_id = localStorage.getItem('app_id');
+}
+
+FB.init({
+  appId: app_id,
+  xfbml: true
+});
+
+FB.getLoginStatus(function(response) {
+  if (response.status == 'connected') {
+    showControls();
+  } else {
+    doLogin(showControls);
+  }
+});
+
+function doLogin(then) {
+  var pane = document.getElementById('login');
+  pane.style.display = 'block';
+  FB.Event.subscribe('auth.login', function() {
+    pane.style.display = 'none';
+    then();
+  });
+}
+
+function showControls() {
+  var pane = document.getElementById('controls');
+  pane.style.display = 'block';
+}
+
+function updateAppId() {
+  localStorage.setItem('app_id', custom_app_id.value);
+  // Have to reload because we can't call FB.init twice in a page.
+  window.location.reload();
+}
+</script>
 </body>
 </html>

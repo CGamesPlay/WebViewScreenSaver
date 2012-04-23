@@ -122,8 +122,8 @@ function animateIn(div) {
 }
 
 function buildGrid() {
-  var cols = window.innerWidth / PIC_SIZE;
-  var rows = window.innerHeight / PIC_SIZE;
+  var cols = Math.max(Math.ceil(window.innerWidth / PIC_SIZE), 4);
+  var rows = Math.max(Math.ceil(window.innerHeight / PIC_SIZE), 3);
   var content = document.getElementById('content');
   content.innerHTML = '';
   for (var y = 0; y < rows; y++) {

@@ -32,8 +32,8 @@
 	<string>http://cgamesplay.github.com/WebViewScreenSaver/profile-pics/configure.html</string>
 	<key>ConfigureFrame</key>
 	<array>
-		<string>640</string>
-		<string>480</string>
+		<string>500</string>
+		<string>200</string>
 	</array>
 	<key>DebugMode</key>
 	<false/>
