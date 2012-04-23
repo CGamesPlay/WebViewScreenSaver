@@ -13,6 +13,7 @@ html, body {
   height: 100%;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 #content > .row {
@@ -30,6 +31,7 @@ html, body {
   background-repeat: no-repeat;
   background-position: 50% 10%;
   height: 100%;
+  overflow: hidden;
   position: absolute;
   width: 100%;
   -webkit-animation-duration: 1500ms;
@@ -40,6 +42,26 @@ html, body {
 
 #content .picture.leaving {
   -webkit-animation-name: leaving;
+  z-index: 1;
+}
+
+#content .picture .subtitle {
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 50%, from(rgba(30, 30, 30, 0)), to(rgba(30, 30, 30, 0.8)));
+  cursor: default;
+  font-size: 14px;
+  font-weight: bold;
+  font-weight: bold;
+  left: 0;
+  padding: 10px 5px 5px;
+  position: absolute;
+  right: 0;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-transition: bottom 100ms linear;
+  -webkit-user-select: none;
+}
+
+#content .picture:hover .subtitle {
+  bottom: 0 !important;
 }
 
 @-webkit-keyframes appearing {
@@ -48,6 +70,7 @@ html, body {
   }
 
   100% {
+    z-index: 1;
     -webkit-transform: perspective(500px) rotateY(0deg);
   }
 }
