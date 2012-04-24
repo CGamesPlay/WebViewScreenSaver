@@ -11,7 +11,6 @@
 <script>
 
 const PIC_SIZE = 180;
-const INITIAL_DISTRIBUTION = 1;
 
 var ALL_PHOTOS = [];
 var CELLS = [];
@@ -30,13 +29,13 @@ FB.init({
 
 FB.getLoginStatus(function(response) {
   if (response.status == 'connected') {
-    startAnimation();
+    didLogin();
   } else {
-    doLogin(startAnimation);
+    tryLogin(didLogin);
   }
 });
 
-function doLogin(then) {
+function tryLogin(then) {
   var content = document.getElementById('content');
   if (IS_SAVER_MODE) {
     // In screen saver mode
@@ -56,35 +55,31 @@ function doLogin(then) {
   });
 }
 
-function prefill() {
-  for (var i = 0; i < CELLS.length; i++) {
-    if (Math.random() < INITIAL_DISTRIBUTION) {
-      (function (i) {
-        var row = Math.floor(i / COLS);
-        var col = i % COLS;
-        setTimeout(function() {
-          var photo = rotate(ALL_PHOTOS);
-          switchCell(i, photo);
-        }, 100 * (row + col));
-      })(i);
-    }
-  }
-}
+function didLogin() {
+  function mainAnimation() {
+    var cell = rotate(CELL_ROTATION_ORDER);
+    var photo = rotate(ALL_PHOTOS);
+    switchCell(cell, photo);
 
-function startAnimation() {
+    var delay = Math.random() * 500 + 2000;
+    setTimeout(mainAnimation, delay);
+  }
+
   buildGrid();
   window.onresize = function() {
     buildGrid();
-    prefill();
+    for (var i = 0; i < CELLS.length; i++) {
+      if (CELLS[i].childNodes.length == 0) {
+        switchCell(i, rotate(ALL_PHOTOS));
+      }
+    }
   }
-
 
   getProfilePics(function(photos) {
     ALL_PHOTOS = photos;
     shuffle(ALL_PHOTOS);
 
-    prefill();
-    setTimeout(switchOne, 3000);
+    waterfall(mainAnimation);
   });
 }
 
@@ -104,41 +99,63 @@ function getProfilePics(then) {
   });
 }
 
-function switchOne() {
-  var cell = rotate(CELL_ROTATION_ORDER);
-  var photo = rotate(ALL_PHOTOS);
-  switchCell(cell, photo);
+function waterfall(then) {
+  var images = [];
+  var waitingOn = 0, animationStarted = false;
 
-  var delay = Math.random() * 500 + 2000;
-  setTimeout(switchOne, delay);
-}
-
-function shuffle(array) {
-  for (var i = 0; i < array.length; i++) {
-    var j = Math.floor(Math.random() * array.length);
-    var temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+  // Preload the images for the initial waterfall
+  for (var i = 0; i < CELLS.length / 2 && i < ALL_PHOTOS.length; i++) {
+    waitingOn++;
+    var img = new Image();
+    img.src = ALL_PHOTOS[i].url;
+    images.push(img);
+    img.addEventListener('load', function() {
+      waitingOn--;
+      if (waitingOn == 0) {
+        startAnimation();
+      }
+    });
   }
-}
 
-function rotate(array) {
-  var val = array.shift();
-  array.push(val);
-  return val;
+  // But don't wait too long
+  setTimeout(startAnimation, 4000);
+
+  function startAnimation() {
+    if (animationStarted) return;
+    animationStarted = true;
+
+    for (var i = 0; i < CELLS.length; i++) {
+      (function (i) {
+        var row = Math.floor(i / COLS);
+        var col = i % COLS;
+        setTimeout(function() {
+          var photo = rotate(ALL_PHOTOS);
+          switchCell(i, photo);
+        }, 100 * (row + col));
+      })(i);
+    }
+
+    setTimeout(then, (ROWS + COLS) * 100 + 2000);
+  }
 }
 
 function switchCell(i, photo) {
   var cell = CELLS[i];
-  if (cell.childNodes.length > 0) {
-    animateOut(cell.childNodes[0]);
+
+  if (cell.dataset.loading) {
+    return;
   }
+  cell.dataset.loading = photo.url;
+
   var image = new Image();
   image.src = photo.url;
   image.addEventListener('load', function() {
-    // This is a little clowny, but I need this here so that image gets closed
-    // over this function.
-    delete image;
+    if (cell.childNodes.length > 0) {
+      animateOut(cell.childNodes[0]);
+    }
+
+    delete cell.dataset.loading;
+
     var div = document.createElement('div');
     cell.appendChild(div);
     div.setAttribute('class', 'picture');
@@ -169,15 +186,45 @@ function buildGrid() {
   COLS = Math.max(Math.ceil(window.innerWidth / PIC_SIZE), 4);
   ROWS = Math.max(Math.ceil(window.innerHeight / PIC_SIZE), 3);
   var content = document.getElementById('content');
-  content.innerHTML = '';
-  for (var y = 0; y < ROWS; y++) {
+
+  if (ROWS == content.childNodes.length &&
+      COLS == content.childNodes[0].childNodes.length) {
+    return;
+  }
+
+  function buildRow(row) {
+    // Add new cells
+    for (var x = row.childNodes.length; x < COLS; x++) {
+      row.appendChild(document.createElement('div'));
+    }
+    // Remove old cells
+    for (var x = COLS; x < row.childNodes.length; x++) {
+      row.removeChild(row.childNodes[row.childNodes.length - 1]);
+    }
+  }
+
+  // Add new rows
+  for (var y = content.childNodes.length; y < ROWS; y++) {
     var row = document.createElement('div');
     row.setAttribute('class', 'row');
     content.appendChild(row);
-    for (var x = 0; x < COLS; x++) {
-      var cell = document.createElement('div');
-      row.appendChild(cell);
-      CELLS.push(cell);
+  }
+  // Remove old rows
+  for (var y = ROWS; y < content.childNodes.length; y++) {
+    content.removeChild(content.childNodes[content.childNodes.length - 1]);
+  }
+  // Update all rows
+  for (var y = 0; y < ROWS; y++) {
+    var row = content.childNodes[y];
+    buildRow(row);
+  }
+
+  // Recalculate all cells
+  CELLS = [];
+  for (var y = 0; y < content.childNodes.length; y++) {
+    var row = content.childNodes[y];
+    for (var x = 0; x < row.childNodes.length; x++) {
+      CELLS.push(row.childNodes[x]);
     }
   }
 
@@ -187,6 +234,22 @@ function buildGrid() {
   }
   shuffle(CELL_ROTATION_ORDER);
 }
+
+function shuffle(array) {
+  for (var i = 0; i < array.length; i++) {
+    var j = Math.floor(Math.random() * array.length);
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
+
+function rotate(array) {
+  var val = array.shift();
+  array.push(val);
+  return val;
+}
+
 </script>
 </body>
 </html>
