@@ -16,24 +16,48 @@ var ALL_PHOTOS = [];
 var CELLS = [];
 var CELL_ROTATION_ORDER = [];
 var ROWS = 0, COLS = 0;
+var PAGE_STARTED = new Date();
 var IS_SAVER_MODE = window.location.search.indexOf('saver') != -1;
+var mainAnimationStarted = false;
 
 var app_id = '274296999328339';
 if (localStorage.getItem('app_id')) {
   app_id = localStorage.getItem('app_id');
 }
 
-FB.init({
-  appId: app_id
-});
+init();
 
-FB.getLoginStatus(function(response) {
-  if (response.status == 'connected') {
-    didLogin();
-  } else {
-    tryLogin(didLogin);
+function init() {
+  FB.init({
+    appId: app_id
+  });
+
+  FB.getLoginStatus(function(response) {
+    if (response.status == 'connected') {
+      didLogin();
+    } else {
+      tryLogin(didLogin);
+    }
+  });
+
+  buildGrid();
+  window.onresize = function() {
+    buildGrid();
+    for (var i = 0; i < CELLS.length; i++) {
+      if (CELLS[i].childNodes.length == 0) {
+        switchCell(i, rotate(ALL_PHOTOS));
+      }
+    }
   }
-});
+
+  // If there is a cache, use it
+  var cached = localStorage.getItem('photos_cache');
+  if (cached) {
+    ALL_PHOTOS = JSON.parse(cached);
+    console.log('Loaded %d photos from cache', ALL_PHOTOS.length);
+    startMainAnimation();
+  }
+}
 
 function tryLogin(then) {
   var content = document.getElementById('content');
@@ -56,30 +80,13 @@ function tryLogin(then) {
 }
 
 function didLogin() {
-  function mainAnimation() {
-    var cell = rotate(CELL_ROTATION_ORDER);
-    var photo = rotate(ALL_PHOTOS);
-    switchCell(cell, photo);
-
-    var delay = Math.random() * 500 + 2000;
-    setTimeout(mainAnimation, delay);
-  }
-
-  buildGrid();
-  window.onresize = function() {
-    buildGrid();
-    for (var i = 0; i < CELLS.length; i++) {
-      if (CELLS[i].childNodes.length == 0) {
-        switchCell(i, rotate(ALL_PHOTOS));
-      }
-    }
-  }
-
   getProfilePics(function(photos) {
     ALL_PHOTOS = photos;
     shuffle(ALL_PHOTOS);
 
-    waterfall(mainAnimation);
+    localStorage.setItem('photos_cache', JSON.stringify(photos));
+
+    startMainAnimation();
   });
 }
 
@@ -99,12 +106,29 @@ function getProfilePics(then) {
   });
 }
 
+function startMainAnimation() {
+  if (mainAnimationStarted) return;
+  mainAnimationStarted = true;
+
+  shuffle(ALL_PHOTOS);
+  waterfall(mainAnimation);
+
+  function mainAnimation() {
+    var cell = rotate(CELL_ROTATION_ORDER);
+    var photo = rotate(ALL_PHOTOS);
+    switchCell(cell, photo);
+
+    var delay = Math.random() * 500 + 2000;
+    setTimeout(mainAnimation, delay);
+  }
+}
+
 function waterfall(then) {
   var images = [];
   var waitingOn = 0, animationStarted = false;
 
   // Preload the images for the initial waterfall
-  for (var i = 0; i < CELLS.length / 2 && i < ALL_PHOTOS.length; i++) {
+  for (var i = 0; i < CELLS.length && i < ALL_PHOTOS.length; i++) {
     waitingOn++;
     var img = new Image();
     img.src = ALL_PHOTOS[i].url;
@@ -112,17 +136,29 @@ function waterfall(then) {
     img.addEventListener('load', function() {
       waitingOn--;
       if (waitingOn == 0) {
-        startAnimation();
+        startAnimation("Preloading finished");
       }
     });
   }
+  console.log("Preloading %d photos", waitingOn);
 
   // But don't wait too long
-  setTimeout(startAnimation, 4000);
+  var deadline = PAGE_STARTED.getTime() + 4000;
+  var delay = deadline - (new Date()).getTime();
+  if (delay <= 0) {
+    startAnimation("Not waiting due to lag");
+  } else {
+    setTimeout(function() {
+      startAnimation("Prematurely starting animation");
+    }, delay);
+  }
 
-  function startAnimation() {
+  function startAnimation(reason) {
     if (animationStarted) return;
     animationStarted = true;
+    if (reason) {
+      console.log(reason);
+    }
 
     for (var i = 0; i < CELLS.length; i++) {
       (function (i) {
