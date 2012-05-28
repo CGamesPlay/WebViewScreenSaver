@@ -47,7 +47,6 @@
 		3BB24F331514BEE100C940AB = {
 			isa = PBXGroup;
 			children = (
-				3BB24F5E1514BF1B00C940AB /* WebKit.framework */,
 				3BB24F4B1514BEE100C940AB /* WebViewScreenSaver */,
 				3BB24F421514BEE100C940AB /* Frameworks */,
 				3BB24F411514BEE100C940AB /* Products */,
@@ -65,6 +64,7 @@
 		3BB24F421514BEE100C940AB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3BB24F5E1514BF1B00C940AB /* WebKit.framework */,
 				3BB24F431514BEE100C940AB /* Cocoa.framework */,
 				3BB24F451514BEE100C940AB /* ScreenSaver.framework */,
 				3BB24F471514BEE100C940AB /* Other Frameworks */,
@@ -226,10 +226,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = supported;
@@ -239,12 +239,12 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -254,19 +254,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_ENABLE_OBJC_GC = supported;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -274,11 +274,13 @@
 		3BB24F581514BEE100C940AB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WebViewScreenSaver/WebViewScreenSaver-Prefix.pch";
 				INFOPLIST_FILE = "WebViewScreenSaver/WebViewScreenSaver-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				INSTALL_PATH = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Debug;
@@ -286,11 +288,13 @@
 		3BB24F591514BEE100C940AB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WebViewScreenSaver/WebViewScreenSaver-Prefix.pch";
 				INFOPLIST_FILE = "WebViewScreenSaver/WebViewScreenSaver-Info.plist";
-				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				INSTALL_PATH = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Release;
