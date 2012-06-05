@@ -42,7 +42,6 @@ html, body {
 
 #content .picture.leaving {
   -webkit-animation-name: leaving;
-  z-index: 1;
 }
 
 #content .picture .subtitle {
@@ -67,6 +66,7 @@ html, body {
 @-webkit-keyframes appearing {
   0%, 50% {
     -webkit-transform: perspective(500px) rotateY(-90deg);
+    z-index: 1;
   }
 
   100% {
@@ -78,10 +78,12 @@ html, body {
 @-webkit-keyframes leaving {
   0% {
     -webkit-transform: perspective(500px) rotateY(0deg);
+    z-index: 1;
   }
 
   50%, 100% {
     -webkit-transform: perspective(500px) rotateY(90deg);
+    z-index: 1;
   }
 }
 

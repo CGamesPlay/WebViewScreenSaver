@@ -187,6 +187,9 @@ function switchCell(i, photo) {
   image.src = photo.url;
   image.addEventListener('load', function() {
     if (cell.childNodes.length > 0) {
+      while (cell.childNodes.length > 1) {
+        cell.removeChild(cell.childNodes[0]);
+      }
       animateOut(cell.childNodes[0]);
     }
 
