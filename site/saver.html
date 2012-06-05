@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html manifest="saver.appcache">
 <head>
 <title>Screen Saver</title>
 <script src="http://connect.facebook.net/en_US/all.js"></script>
@@ -28,17 +28,21 @@ if (localStorage.getItem('app_id')) {
 init();
 
 function init() {
-  FB.init({
-    appId: app_id
-  });
+  try {
+    FB.init({
+      appId: app_id
+    });
 
-  FB.getLoginStatus(function(response) {
-    if (response.status == 'connected') {
-      didLogin();
-    } else {
-      tryLogin(didLogin);
-    }
-  });
+    FB.getLoginStatus(function(response) {
+      if (response.status == 'connected') {
+        didLogin();
+      } else {
+        tryLogin(didLogin);
+      }
+    });
+  } catch(e) {
+    // Connect might be unavailable. Hopefully we have a cache
+  }
 
   buildGrid();
   window.onresize = function() {

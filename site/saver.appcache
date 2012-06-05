@@ -1,0 +1,10 @@
+CACHE MANIFEST
+# v1
+
+CACHE:
+saver.html
+configure.html
+style.css
+
+NETWORK:
+*
