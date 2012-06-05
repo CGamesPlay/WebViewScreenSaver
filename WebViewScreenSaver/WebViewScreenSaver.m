@@ -123,14 +123,52 @@ static NSString * const kLocalStorageDatabasePath = @"~/Library/WebKit/LocalStor
   }
 }
 
+- (WebView *)webView:(WebView *)sender createWebViewWithRequest:(NSURLRequest *)request
+{
+  NSRect windowRect = NSMakeRect(10.0f, 10.0f, 800.0f, 600.0f);
+  NSUInteger styleMask = NSResizableWindowMask | NSClosableWindowMask | NSTitledWindowMask;
+  NSWindow *newWindow = [[NSWindow alloc] initWithContentRect:windowRect
+                                                    styleMask:styleMask
+                                                      backing:NSBackingStoreBuffered
+                                                        defer:NO];
+  [newWindow retain];
+
+  WebView *newWebView = [[WebView alloc] initWithFrame:[newWindow.contentView frame]];
+  [newWindow setContentView:newWebView];
+
+  [newWebView setUIDelegate:self];
+  [newWebView.mainFrame loadRequest:request];
+
+  return newWebView;
+}
+
+- (void)webViewShow:(WebView *)sender
+{
+  if (sender == configureWebView_ || sender == webView_) {
+    return;
+  }
+  [sender.window makeKeyAndOrderFront:self];
+}
+
 - (void)webViewClose:(WebView*)sender
 {
-  [[NSApplication sharedApplication] endSheet:sheet_];
-  [sheet_ release];
-  sheet_ = nil;
-  [configureWebView_ release];
-  configureWebView_ = nil;
-  [webView_ reload:self];
+  if (sender == configureWebView_) {
+    [[NSApplication sharedApplication] endSheet:sheet_];
+    [sheet_ release];
+    sheet_ = nil;
+    [configureWebView_ release];
+    configureWebView_ = nil;
+    [webView_ reload:self];
+
+  } else if (sender == webView_) {
+    // Silly screen saver, you can't close yourself like that (actually this
+    // never happens because there's no UIDelegate, but future-proofing...)
+
+  } else {
+    // Must be a new window we created. Free the window.
+    [sender.window close];
+    [sender.window release];
+  }
 }
 
 @end
