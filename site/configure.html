@@ -6,10 +6,43 @@
 <style type="text/css">
 
 body {
-  padding: 0 20px 20px;
-  margin: 0 auto;
+  -webkit-user-select: none;
+  background: #ededed;
+  cursor: default;
   font-family: Lucida Grande;
-  font-size: 11px;
+  font-size: 13px;
+  margin: 15px;
+  overflow: hidden;
+  padding: 0 0 22px;
+}
+
+button {
+  font: inherit;
+}
+
+#controls {
+  margin: 1em 0;
+  min-height: 80px;
+}
+
+#bottom {
+  bottom: 15px;
+  height: 22px;
+  left: 15px;
+  position: absolute;
+  right: 15px;
+}
+
+.author {
+  color: #969696;
+  line-height: 20px;
+  overflow: auto;
+  text-align: right;
+}
+
+.author .fb-subscribe {
+  min-width: 115px;
+  vertical-align: top;
 }
 
 </style>
@@ -17,21 +50,16 @@ body {
 <body>
 <div id="fb-root"></div>
 
-<h1>Facebook Friends Screen Saver</h1>
+<strong>Facebook Friends Screen Saver</strong><br />
 
-<div id="login" style="display: none">
-<p>In order to use this screen saver, you need to log in with Facebook. To do
-that, please open the following URL in Safari (you must manually copy and paste
-the link). Right click, and select "Copy Link".</p>
-<p><a href="http://cgamesplay.github.com/WebViewScreenSaver/profile-pics/saver.html" onclick="return false;">http://cgamesplay.github.com/WebViewScreenSaver/profile-pics/saver.html</a></p>
+<div id="controls"></div>
+
+<div id="bottom">
+  <button onclick="window.close(); return false;" style="float: left;">Close</button>
+  <div class="author">Created by Ryan Patterson.
+    <div class="fb-subscribe" data-href="https://www.facebook.com/ry" data-layout="button_count" data-show-faces="false" data-font="lucida grande" data-width="100"></div>
+  </div>
 </div>
-
-<div id="controls" style="display: none">
-<p>You are now logged in and can use this screen saver!</p>
-</div>
-
-<button onclick="location.reload(); return false;">Refresh</button>
-<button onclick="window.close(); return false;">Close</button>
 
 <div style="display: none">
   <label for="custom-app-id">Custom App ID:</label>
@@ -61,18 +89,29 @@ FB.getLoginStatus(function(response) {
   }
 });
 
+setInterval(function() {
+  var height = Math.max(document.body.clientHeight + 30, document.body.offsetHeight);
+  var height = document.body.scrollHeight;
+  window.resizeTo(500, height);
+}, 1000);
+
 function doLogin(then) {
-  var pane = document.getElementById('login');
-  pane.style.display = 'block';
+  var controls = document.getElementById('controls');
+  controls.innerHTML =
+    '<p>To use this screen saver, you must log in with Facebook.</p>' +
+    '<p><div class="fb-login-button" data-show-faces="true" data-width="400" data-max-rows="1"></div></p>';
+  FB.XFBML.parse(controls);
   FB.Event.subscribe('auth.login', function() {
-    pane.style.display = 'none';
     then();
   });
 }
 
 function showControls() {
-  var pane = document.getElementById('controls');
-  pane.style.display = 'block';
+  var controls = document.getElementById('controls');
+  controls.innerHTML =
+    '<div class="fb-like" data-href="http://www.facebook.com/" data-send="false" data-width="450" data-show-faces="true" data-action="recommend" data-font="lucida grande"></div>' +
+    '<p>You are now logged in and can use this screen saver! If you enjoy using it, why not tell your friends?</p>';
+  FB.XFBML.parse(controls);
 }
 
 function updateAppId() {
